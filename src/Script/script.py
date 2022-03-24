@@ -6,12 +6,13 @@
 def metodo_congruencial_multiplicativo(a,m,x0,n):
     x = []
     x.append(x0)
+    vec_aleatorio = []
     for i in range(1,n):
         x.append(a*x[i-1]%m)
-    return x
+        vec_aleatorio.append(x[i]/(m))
 
-test = metodo_congruencial_multiplicativo(7,11,5,10)
-print(test)
+    return vec_aleatorio
+
 
 #funcion metodo congruencial multiplicativo
 #X0 es la semilla
@@ -20,9 +21,11 @@ print(test)
 def congruencia_Lineal (a,m,x0,n,c):
     x = []
     x.append(x0)
+    vec_aleatorio = []
     for i in range(1, n):
         x.append((a * x[i - 1]+c) % m)
-    return x
+        vec_aleatorio.append(x[i] / (m))
+    return vec_aleatorio
 
 #funcion ji-cuadrada
 #frecuencia observada
