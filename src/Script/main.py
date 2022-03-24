@@ -1,7 +1,7 @@
 from email.policy import default
 from main_ui import *
 from PyQt5 import QtWidgets
-from secondView import *
+import secondView as s
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -15,15 +15,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #crear metodo de validar si se cargaron todos los valores
         tipoGenerador = self.cmbGeneradorNros.currentText()
         intervalos = self.cmbIntervalos.currentText()
-        print(tipoGenerador, intervalos)
+        #print(tipoGenerador, intervalos)
 
-        cValue = self.cBox.value()
-        gValue = self.gBox.value()
-        kValue = self.kBox.value()
-        print(cValue, gValue, kValue)
+        s.C = self.cBox.value()
+        s.G = self.gBox.value()
+        s.K = self.kBox.value()
+        s.GEN_NRO = "Generador X"
+        s.INTERVALO = "Intervalo Y"
         self.close()
         self.ventana = QtWidgets.QMainWindow()
-        self.ui = SecondView()
+        self.ui = s.SecondView()
         self.ui.setupUi(self.ventana)
         self.ventana.show()
 
