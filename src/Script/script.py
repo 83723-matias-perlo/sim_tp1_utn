@@ -55,4 +55,27 @@ def validar_Numero():
         print("no es un numero")
         return validar()
 
+def Crear_Histograma1(vector_frecuencias, n):
+    import pandas as pd
+    import matplotlib.pyplot as plt
+
+    tamaño_intervalo = 1/n
+    vector_intervalos = []
+    limite=0
+    for i in range (n+2):
+        vector_intervalos.append(limite)
+        limite = i*tamaño_intervalo
+
+
+    print(len(vector_intervalos))
+
+
+
+    plt.hist(x=vector_frecuencias, bins=n, orientation="vertical", color="green", ec="black")
+    plt.xticks(vector_intervalos)
+    plt.title("Histograma de frecuencias")
+    plt.xlabel('Intervalo')
+    plt.ylabel('Frecuencia')
+    plt.show()
+    
 validar_Numero()
