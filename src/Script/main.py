@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 from main_ui import *
-from secondView import *
+import secondView as s
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -41,6 +41,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.kBox.setDisabled(False)
 
     def aceptar(self):
+      
         self.generate_m_value()
         self.generate_a_value()
         self.set_c_value()
@@ -55,9 +56,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.ok:
             # Si todas las validaciones fueron correctas, se procede a la siguiente pantalla. Sino queda validando
             # hasta que sean correctos los inputs.
+            s.GEN_NRO = self.cmbGeneradorNros.currentText()
+            s.INTERVALO = self.cmbIntervalos.currentText()
+            s.C = self.cBox.value()
+            s.G = self.gBox.value()
+            s.K = self.kBox.value()
             self.close()
             self.ventana = QtWidgets.QMainWindow()
-            self.ui = SecondView()
+            self.ui = s.SecondView()
             self.ui.setupUi(self.ventana)
             self.ventana.show()
 
