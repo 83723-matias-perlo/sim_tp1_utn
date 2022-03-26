@@ -1,19 +1,22 @@
 from  secondView_ui import *
 
-GEN_NRO = ""
-INTERVALO = ""
-C = 0
-G = 0
-K = 0
-
-
 class SecondView(QtWidgets.QMainWindow, SecondViewWindow):
     def __init__(self, *args, **kwargs):
+
+        #valores necesarios para realizar la visualizacion
+        self.matriz_valores_calculados = []
+        self.frecuencias_observadas = []
+
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         self.setupUi(self)
 
-        #asignar metodos
-        print(C, G, K, GEN_NRO, INTERVALO)
+    def set_matriz_valores_calculados(self, matriz):
+        self.matriz_valores_calculados = matriz
+        #TODO: relacionar esto con la tabla a mostrar
+    
+    def set_frecuencias_observadas(self, frec):
+        self.frecuencias_observadas = frec
+        #TODO: relacionarlo con el histograma del matplotlib
 
 
 

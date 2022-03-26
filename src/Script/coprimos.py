@@ -4,6 +4,11 @@
 def es_coprimo(a, b):
     '''return si a es coprimo de b
     '''
+    if 0 in [a, b]:
+        return False
+    if a < 0 or b < 0:
+        return False
+        
     factoresA = factores_primos(a)
     factoresB = factores_primos(b)
     for cop in factoresA:

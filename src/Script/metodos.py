@@ -22,10 +22,14 @@ class MetodoGeneradorNumeros:
     def obtener_matriz_valores_calculados(self):
         '''devuelve la matriz de los primeros calculos realizados para la generacion 
         de los nros + el ultimo calculo
+
+        la matriz tiene como columnas : i , (a.X + c), Xi+1, RND
+        la cantidad de filas dependera de la cantidad de entradas que se desee guardar
+        puede setear la cantidad de filas en set_cant_filas_para_matriz(self, num) 
         '''
         return self._matriz_calculos
     
-    def obtener_intervalo_frecuencias(self):
+    def obtener_frecuencias_de_cada_intervalo(self):
         '''devuelve el array con los contadores para cada intervalo de frecuencia'''
         return self._intervalos_frecuencia
 
@@ -58,12 +62,14 @@ class MetodoGeneradorNumeros:
     def set_cant_intervalos(self, cant):
         '''aca van la cantidad de intervalos requeridos'''
         self._cant_intervalos = cant
-        self._intervalos_frecuencia = [] * cant
+        self._intervalos_frecuencia = [0] * cant
+        return cant
 
     def set_cant_filas_para_matriz(self, num):
         '''setea la cantidad de filas que quiero guardar (ademas de la ultima) para recuperar con 
         la matriz'''
         self._cant_filas_para_matriz = num
+        return num
 
     def g_valido(self, g):
         pass
@@ -140,7 +146,7 @@ class MetodoGeneradorNumeros:
 
 
 
-class MetodoMixto(MetodoGeneradorNumeros):
+class MetodoCongruencialLineal(MetodoGeneradorNumeros):
     '''Metodo Congruencial Lineal'''
     def __init__(self) -> None:
         super().__init__()
@@ -149,7 +155,7 @@ class MetodoMixto(MetodoGeneradorNumeros):
         return g > 0
 
     def k_valido(self, k):
-        k > 0
+        return k > 0
 
     def c_valido(self, c):
         return es_coprimo(c, self._m)
@@ -186,6 +192,9 @@ class MetodoMultiplicativo(MetodoGeneradorNumeros):
 
     def k_valido(self, k):
         return k >= 0
+    
+    def c_valido(self, c):
+        return True
     
     def semilla_valida(self,semilla):
         return semilla > 0 and semilla % 2 != 0
@@ -238,6 +247,6 @@ class MetodoPython(MetodoGeneradorNumeros):
         return rd.random % 1
 
 if __name__ == "__main__":
-    print(MetodoMixto().setG(4))
+    print(MetodoCongruencialLineal().setG(4))
     for i in range(10):
         print(rd.random() % 1)

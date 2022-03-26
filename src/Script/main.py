@@ -1,33 +1,37 @@
+
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from main_ui import *
-from coprimos import es_coprimo
-import secondView as s
+from main_ui import Ui_MainWindow
+from metodos import MetodoCongruencialLineal, MetodoMultiplicativo, MetodoPython
+from secondView import SecondView
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        self.ok = True
-        self.m_value = 0
-        self.a_value = 0
-        self.c_value = 0
-        self.x0_value = 0
-        self.intervalos = 0
+        
+        #una lista de los metodos que pueden utilizarse, y el metodo actual (Mixto por defecto)
+        self.metodos = [MetodoCongruencialLineal, MetodoMultiplicativo, MetodoPython]
+        self.metodo = MetodoCongruencialLineal()
+
         self.setupUi(self)
         self.btnAceptar.clicked.connect(self.aceptar)
         self.btnCancelar.clicked.connect(self.cancelar)
-        self.tipo_generador = self.cmbGeneradorNros.currentIndex()
+
         # Cada vez que se elija un generador, ejecuta el metodo 'restringir_variables'.
         self.cmbGeneradorNros.activated[str].connect(self.restringir_variables)
 
     # Restringe los inputs dependiendo del tipo de generador que seleccionemos.
     def restringir_variables(self):
-        self.tipo_generador = self.cmbGeneradorNros.currentIndex()
-        if self.tipo_generador == 1:
+        self.metodo = self.metodos[self.cmbGeneradorNros.currentIndex()]()
+        #self.tipo_generador = self.cmbGeneradorNros.currentIndex()
+
+        if self.metodo.__class__ == MetodoMultiplicativo:
             # Si el generador es Congruencial Multiplicativo, deshabilita el input para 'c'.
             self.cBox.setDisabled(True)
             self.cBox.setText("0")
-        elif self.tipo_generador == 2:
+
+        elif self.metodo.__class__ == MetodoPython:
             # Si el generador es una funcion del lenguaje, deshabilita todos los inputs.
             self.cBox.setDisabled(True)
             self.cBox.setText("0")
@@ -35,18 +39,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.gBox.setText("0")
             self.kBox.setDisabled(True)
             self.kBox.setText("0")
+
         else:
             # Si no cumple ninguno, significa que esta en Congruencial Lineal y habilita todos los inputs.
             self.cBox.setDisabled(False)
             self.gBox.setDisabled(False)
             self.kBox.setDisabled(False)
 
-    def k_y_g_validos(self):
-        '''te devuelve si k y g son distintos de 0 en los metodos mixto y multiplicativo
-        '''
-        if self.tipo_generador in [0, 1]:
-            return not "0" in [self.kBox.text(), self.gBox.text()]
+    def setear_valores_a_metodo(self):
+        if self.metodo.setG(int(self.gBox.text())) == -1:
+            QMessageBox.about(self, "Error", "La constante G es invalida para el metodo seleccionado")
+            return False
+        if self.metodo.setK(int(self.kBox.text())) == -1:
+            QMessageBox.about(self, "Error", "La constante K es invalida para el metodo seleccionado")
+            return False
+        if self.metodo.setC(int(self.cBox.text())) == -1:
+            QMessageBox.about(self, "Error", "La constante C es invalida para el metodo seleccionado")
+            return False
+        if self.metodo.setSemilla(int(self.semillaBox.text())) == -1:
+            QMessageBox.about(self, "Error", "La semilla es invalida para el metodo seleccionado")
+            return False
+
+        self.metodo.set_cant_intervalos(int(self.cmbIntervalos.currentText()))
+        self.metodo.set_cant_filas_para_matriz(12) #Hardcodeado, no se espera que varie
+
         return True
+
 
     def aceptar(self):
         # revisa que no haya campos vacios, si los hay, cancelar y los resetea
@@ -55,93 +73,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.resetear_campos()
             return
         
-        if not self.k_y_g_validos():
-            QMessageBox.about(self, "Error", "los valores de k y/o g son cero o algun valor no valido")
-            return
-        
         #Antes de comenzar a validar, asumimos que todo anda bien, hasta que se demuestre lo contrario
-        self.ok = True
+        if not self.setear_valores_a_metodo():
+            self.metodo = self.metodos[self.cmbGeneradorNros.currentIndex()]()
+            return
 
-        #Si el tipo de generador es mixto o multiplicativo, genera las ctes
-        if self.tipo_generador in [0, 1]:
-            self.generate_m_value() 
-            self.generate_a_value()
-            self.set_c_value()
-            self.set_x0_value()
+        #solo llega aca habiendo validado el resto
+        
 
-        self.set_intervalos()
-        print("Constante m: %i" % self.m_value)
-        print("Constante a: %i" % self.a_value)
-        print("Constante c: %i" % self.c_value)
-        print("Constante X0 (semilla): %i" % self.x0_value)
-        print("Intervalos: %i" % self.intervalos)
+        #activamos el metodo ya seteado para que haga los calculos
+        self.metodo.generar_numeros(int(self.cantNrosBox.text()))
 
-        if self.ok:
-            # Si todas las validaciones fueron correctas, se procede a la siguiente pantalla. Sino queda validando
-            # hasta que sean correctos los inputs.
-            s.GEN_NRO = self.cmbGeneradorNros.currentText()
-            s.INTERVALO = self.cmbIntervalos.currentText()
-            s.C = int(self.cBox.text())
-            s.G = int(self.gBox.text())
-            s.K = int(self.kBox.text())
-            self.close()
-            self.ventana = QtWidgets.QMainWindow()
-            self.ui = s.SecondView()
-            self.ui.setupUi(self.ventana)
-            self.ventana.show()
+        #creamos la ventana seteada con los resultados y la lanzamos
+        self.close()
+        self.ventana = QtWidgets.QMainWindow()
+        self.ui = SecondView()
+        self.ui.set_frecuencias_observadas(self.metodo.obtener_frecuencias_de_cada_intervalo()) #TODO:tengo que pasarle valores validos
+        self.ui.set_matriz_valores_calculados([])
+        self.ui.setupUi(self.ventana)
+        self.ventana.show()
 
     def cancelar(self):
         self.close()
-
-    # Genera el valor de 'm' a partir de la constante 'g'.
-    def generate_m_value(self):
-        self.m_value = 2 ** int(self.gBox.text())
-        self.validar_constantes("m", self.m_value, self.tipo_generador)
-
-    # Genera el valor de 'a' a partir de la constante 'k' dependiendo del tipo de generador.
-    def generate_a_value(self):
-        if self.tipo_generador == 0:
-            # Si es un generador Congruencial Lineal: 1 + (4 * k)
-            self.a_value = 1 + (4 * int(self.kBox.text()))
-        elif self.tipo_generador == 1:
-            # Si es un generador Congruencial Multiplicativo: 3 + (8 * k)
-            self.a_value = 3 + (8 * int(self.kBox.text()))
-        self.validar_constantes("a", self.a_value, self.tipo_generador)
-
-    def set_c_value(self):
-        # TODO: Para Lineal 'c' debe ser relativamente primo a 'm'
-        self.c_value = int(self.cBox.text())
-        self.validar_constantes("c", self.c_value, self.tipo_generador)
-
-    def set_x0_value(self):
-        self.x0_value = int(self.semillaBox.text())
-        self.validar_constantes("x0", self.x0_value, self.tipo_generador)
-
-    def validar_constantes(self, constante, valor, generador):
-        if not self.ok:
-            return
-
-        if constante == "x0" and generador == 1:
-            if valor <= 0:
-                self.ok = False
-                QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un entero positivo")
-            elif valor % 2 == 0:
-                self.ok = False
-                QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un numero impar")
-            # TODO: Si cumple ambos, sugerir que sea primo?
-
-        elif constante == "c" and generador == 0:
-            if not es_coprimo(self.c_value, self.m_value):
-                self.ok = False
-                QMessageBox.about(self, "Error", "La constante c: " + str(valor) + " debe ser coprimo de m: " + str(self.m_value))
-
-        elif constante == "m" or constante == "a" or constante == "x0":
-            if valor <= 0:
-                self.ok = False
-                QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un entero positivo")
-
-    def set_intervalos(self):
-        self.intervalos = int(self.cmbIntervalos.currentText())
 
 
 if __name__ == "__main__":
