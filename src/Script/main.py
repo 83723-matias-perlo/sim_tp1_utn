@@ -41,8 +41,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.kBox.setDisabled(False)
 
     def aceptar(self):
-      
-        self.generate_m_value()
+
+        # revisa que no haya campos vacios, si los hay, cancelar y los resetea
+        if self.hay_campos_vacios():
+            QMessageBox.about(self, "Error", "exiten campos sin rellenar")
+            self.resetear_campos()
+            return
+        
+        #TODO: cambiar los values porque ya no uso spinbox
+        self.generate_m_value() 
         self.generate_a_value()
         self.set_c_value()
         self.set_x0_value()
@@ -58,9 +65,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # hasta que sean correctos los inputs.
             s.GEN_NRO = self.cmbGeneradorNros.currentText()
             s.INTERVALO = self.cmbIntervalos.currentText()
-            s.C = self.cBox.value()
-            s.G = self.gBox.value()
-            s.K = self.kBox.value()
+            s.C = int(self.cBox.text())
+            s.G = int(self.gBox.text())
+            s.K = int(self.kBox.text())
             self.close()
             self.ventana = QtWidgets.QMainWindow()
             self.ui = s.SecondView()
@@ -72,25 +79,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Genera el valor de 'm' a partir de la constante 'g'.
     def generate_m_value(self):
-        self.m_value = 2 ** self.gBox.value()
+        self.m_value = 2 ** int(self.gBox.text())
         self.validar_constantes("m", self.m_value, self.tipo_generador)
 
     # Genera el valor de 'a' a partir de la constante 'k' dependiendo del tipo de generador.
     def generate_a_value(self):
         if self.tipo_generador == 0:
             # Si es un generador Congruencial Lineal: 1 + (4 * k)
-            self.a_value = 1 + (4 * self.kBox.value())
+            self.a_value = 1 + (4 * int(self.kBox.text()))
         elif self.tipo_generador == 1:
             # Si es un generador Congruencial Multiplicativo: 3 + (8 * k)
-            self.a_value = 3 + (8 * self.kBox.value())
+            self.a_value = 3 + (8 * int(self.kBox.text()))
         self.validar_constantes("a", self.a_value, self.tipo_generador)
 
     def set_c_value(self):
         # TODO: Para Lineal 'c' debe ser relativamente primo a 'm'
-        self.c_value = self.cBox.value()
+        self.c_value = int(self.cBox.text())
 
     def set_x0_value(self):
-        self.x0_value = self.semillaBox.value()
+        self.x0_value = int(self.semillaBox.text())
         self.validar_constantes("x0", self.x0_value, self.tipo_generador)
 
     def validar_constantes(self, constante, valor, generador):

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>384</height>
+    <width>292</width>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>40</y>
+      <y>130</y>
       <width>231</width>
       <height>22</height>
      </rect>
@@ -62,7 +62,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>330</y>
       <width>251</width>
       <height>22</height>
      </rect>
@@ -92,7 +92,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>220</y>
+      <y>310</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -105,7 +105,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>280</y>
+      <y>370</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -118,7 +118,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>80</y>
+      <y>170</y>
       <width>191</width>
       <height>121</height>
      </rect>
@@ -165,33 +165,33 @@
       <string>c</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="kBox">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>80</y>
-       <width>81</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="gBox">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>50</y>
-       <width>81</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="cBox">
+    <widget class="QLineEdit" name="cBox">
      <property name="geometry">
       <rect>
        <x>90</x>
        <y>20</y>
        <width>81</width>
-       <height>22</height>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="gBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>50</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="kBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>80</y>
+       <width>81</width>
+       <height>20</height>
       </rect>
      </property>
     </widget>
@@ -200,7 +200,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>350</y>
+      <y>440</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -213,7 +213,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>350</y>
+      <y>440</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -222,13 +222,49 @@
      <string>Cancelar</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="semillaBox">
+   <widget class="QLabel" name="cantNumerosLabel">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>40</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cant de numero para generar</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tipoGeneradorLabel">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>110</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tipo de Generador a usar</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="cantNrosBox">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>70</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="semillaBox">
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>280</y>
+      <y>370</y>
       <width>81</width>
-      <height>22</height>
+      <height>20</height>
      </rect>
     </property>
    </widget>
