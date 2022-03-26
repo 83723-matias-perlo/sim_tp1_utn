@@ -1,12 +1,15 @@
+from multiprocessing.sharedctypes import Value
+from xml.dom.expatbuilder import parseString
 from PyQt5.QtWidgets import QMessageBox
 from main_ui import *
+from coprimos import es_coprimo
 import secondView as s
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        self.ok = False
+        self.ok = True
         self.m_value = 0
         self.a_value = 0
         self.c_value = 0
@@ -41,7 +44,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.kBox.setDisabled(False)
 
     def aceptar(self):
-      
+        
+        self.ok = True
         self.generate_m_value()
         self.generate_a_value()
         self.set_c_value()
@@ -88,12 +92,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def set_c_value(self):
         # TODO: Para Lineal 'c' debe ser relativamente primo a 'm'
         self.c_value = self.cBox.value()
+        self.validar_constantes("c", self.c_value, self.tipo_generador)
+        
 
     def set_x0_value(self):
         self.x0_value = self.semillaBox.value()
         self.validar_constantes("x0", self.x0_value, self.tipo_generador)
 
     def validar_constantes(self, constante, valor, generador):
+        if not self.ok:
+            return
+
         if constante == "x0" and generador == 1:
             if valor <= 0:
                 self.ok = False
@@ -101,15 +110,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             elif valor % 2 == 0:
                 self.ok = False
                 QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un numero impar")
-            else:
-                self.ok = True
             # TODO: Si cumple ambos, sugerir que sea primo?
+
+        elif constante == "c" and generador == 0:
+            if not es_coprimo(self.c_value, self.m_value):
+                self.ok = False
+                QMessageBox.about(self, "Error", "La constante c: " + str(valor) + " debe ser coprimo de m: " + str(self.m_value))
+
         elif constante == "m" or constante == "a" or constante == "x0":
             if valor <= 0:
                 self.ok = False
                 QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un entero positivo")
-            else:
-                self.ok = True
+
 
     def set_intervalos(self):
         self.intervalos = int(self.cmbIntervalos.currentText())
