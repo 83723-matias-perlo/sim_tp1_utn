@@ -84,12 +84,13 @@ class Ui_MainWindow(object):
 
         #Las modificaciones manuales sobre la interfaz estan aca
         intValidator = QIntValidator(0, 1000000)
+        intValidatorCant = QIntValidator(30, 1000000)
 
         #validadores de enteros
         self.cBox.setValidator(intValidator)
         self.gBox.setValidator(intValidator)
         self.kBox.setValidator(intValidator)
-        self.cantNrosBox.setValidator(intValidator)
+        self.cantNrosBox.setValidator(intValidatorCant)
         self.semillaBox.setValidator(intValidator)
         
         #insertar valores iniciales
@@ -107,7 +108,7 @@ class Ui_MainWindow(object):
         self.cBox.setText("0")
         self.gBox.setText("0")
         self.kBox.setText("0")
-        self.cantNrosBox.setText("0")
+        self.cantNrosBox.setText("30")
         self.semillaBox.setText("0")
 
     def hay_campos_vacios(self):
@@ -126,8 +127,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.lblGeneradorNro.setText(_translate("MainWindow", "Generador de Nros"))
         self.cmbGeneradorNros.setItemText(0, _translate("MainWindow", "Congruencial Lineal"))
-        self.cmbGeneradorNros.setItemText(1, _translate("MainWindow", "Funcion del lenguaje utilizado?"))
-        self.cmbGeneradorNros.setItemText(2, _translate("MainWindow", "Cungruencial Multiplicativo"))
+        self.cmbGeneradorNros.setItemText(1, _translate("MainWindow", "Cungruencial Multiplicativo"))
+        self.cmbGeneradorNros.setItemText(2, _translate("MainWindow", "Funcion del Lenguaje (Python)"))
         self.cmbIntervalos.setItemText(0, _translate("MainWindow", "5"))
         self.cmbIntervalos.setItemText(1, _translate("MainWindow", "10"))
         self.cmbIntervalos.setItemText(2, _translate("MainWindow", "15"))

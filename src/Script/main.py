@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QMessageBox
 from main_ui import *
+from coprimos import es_coprimo
 import secondView as s
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        self.ok = False
+        self.ok = True
         self.m_value = 0
         self.a_value = 0
         self.c_value = 0
@@ -25,34 +26,49 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.tipo_generador == 1:
             # Si el generador es Congruencial Multiplicativo, deshabilita el input para 'c'.
             self.cBox.setDisabled(True)
-            self.cBox.setValue(0)
+            self.cBox.setText("0")
         elif self.tipo_generador == 2:
             # Si el generador es una funcion del lenguaje, deshabilita todos los inputs.
             self.cBox.setDisabled(True)
-            self.cBox.setValue(0)
+            self.cBox.setText("0")
             self.gBox.setDisabled(True)
-            self.gBox.setValue(0)
+            self.gBox.setText("0")
             self.kBox.setDisabled(True)
-            self.kBox.setValue(0)
+            self.kBox.setText("0")
         else:
             # Si no cumple ninguno, significa que esta en Congruencial Lineal y habilita todos los inputs.
             self.cBox.setDisabled(False)
             self.gBox.setDisabled(False)
             self.kBox.setDisabled(False)
 
-    def aceptar(self):
+    def k_y_g_validos(self):
+        '''te devuelve si k y g son distintos de 0 en los metodos mixto y multiplicativo
+        '''
+        if self.tipo_generador in [0, 1]:
+            return not "0" in [self.kBox.text(), self.gBox.text()]
+        return True
 
+    def aceptar(self):
         # revisa que no haya campos vacios, si los hay, cancelar y los resetea
         if self.hay_campos_vacios():
             QMessageBox.about(self, "Error", "exiten campos sin rellenar")
             self.resetear_campos()
             return
         
-        #TODO: cambiar los values porque ya no uso spinbox
-        self.generate_m_value() 
-        self.generate_a_value()
-        self.set_c_value()
-        self.set_x0_value()
+        if not self.k_y_g_validos():
+            QMessageBox.about(self, "Error", "los valores de k y/o g son cero o algun valor no valido")
+            return
+        
+        #Antes de comenzar a validar, asumimos que todo anda bien, hasta que se demuestre lo contrario
+        self.ok = True
+
+        #Si el tipo de generador es mixto o multiplicativo, genera las ctes
+        if self.tipo_generador in [0, 1]:
+            self.generate_m_value() 
+            self.generate_a_value()
+            self.set_c_value()
+            self.set_x0_value()
+
         self.set_intervalos()
         print("Constante m: %i" % self.m_value)
         print("Constante a: %i" % self.a_value)
@@ -95,12 +111,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def set_c_value(self):
         # TODO: Para Lineal 'c' debe ser relativamente primo a 'm'
         self.c_value = int(self.cBox.text())
+        self.validar_constantes("c", self.c_value, self.tipo_generador)
 
     def set_x0_value(self):
         self.x0_value = int(self.semillaBox.text())
         self.validar_constantes("x0", self.x0_value, self.tipo_generador)
 
     def validar_constantes(self, constante, valor, generador):
+        if not self.ok:
+            return
+
         if constante == "x0" and generador == 1:
             if valor <= 0:
                 self.ok = False
@@ -108,15 +128,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             elif valor % 2 == 0:
                 self.ok = False
                 QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un numero impar")
-            else:
-                self.ok = True
             # TODO: Si cumple ambos, sugerir que sea primo?
+
+        elif constante == "c" and generador == 0:
+            if not es_coprimo(self.c_value, self.m_value):
+                self.ok = False
+                QMessageBox.about(self, "Error", "La constante c: " + str(valor) + " debe ser coprimo de m: " + str(self.m_value))
+
         elif constante == "m" or constante == "a" or constante == "x0":
             if valor <= 0:
                 self.ok = False
                 QMessageBox.about(self, "Error", "La constante '" + constante + "' debe ser un entero positivo")
-            else:
-                self.ok = True
 
     def set_intervalos(self):
         self.intervalos = int(self.cmbIntervalos.currentText())
