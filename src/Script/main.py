@@ -86,12 +86,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #creamos la ventana seteada con los resultados y la lanzamos
         self.close()
-        self.ventana = QtWidgets.QMainWindow()
-        self.ui = SecondView()
-        self.ui.set_frecuencias_observadas(self.metodo.obtener_frecuencias_de_cada_intervalo())
-        self.ui.set_matriz_valores_calculados(self.metodo.obtener_matriz_valores_calculados())
-        self.ui.setupUi(self.ventana)
-        self.ventana.show()
+        #self.ventana = QtWidgets.QMainWindow()
+        self.secView = SecondView()
+        self.secView.set_frecuencias_observadas(self.metodo.obtener_frecuencias_de_cada_intervalo())
+        self.secView.set_calculos_del_generador(self.metodo.obtener_matriz_valores_calculados())
+        #self.ui.setupUi(self.ventana)
+        self.secView.show()
 
     def cancelar(self):
         self.close()
