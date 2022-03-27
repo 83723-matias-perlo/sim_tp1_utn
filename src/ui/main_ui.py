@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtGui import QIntValidator
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -52,46 +52,83 @@ class Ui_MainWindow(object):
         self.cLabel = QtWidgets.QLabel(self.groupBox)
         self.cLabel.setGeometry(QtCore.QRect(20, 20, 47, 13))
         self.cLabel.setObjectName("cLabel")
-        self.kBox = QtWidgets.QSpinBox(self.groupBox)
-        self.kBox.setGeometry(QtCore.QRect(90, 80, 81, 22))
-        self.kBox.setObjectName("kBox")
-        self.gBox = QtWidgets.QSpinBox(self.groupBox)
-        self.gBox.setGeometry(QtCore.QRect(90, 50, 81, 22))
-        self.gBox.setObjectName("gBox")
-        self.cBox = QtWidgets.QSpinBox(self.groupBox)
-        self.cBox.setGeometry(QtCore.QRect(90, 20, 81, 22))
+        self.cBox = QtWidgets.QLineEdit(self.groupBox)
+        self.cBox.setGeometry(QtCore.QRect(90, 20, 81, 20))
         self.cBox.setObjectName("cBox")
+        self.gBox = QtWidgets.QLineEdit(self.groupBox)
+        self.gBox.setGeometry(QtCore.QRect(90, 50, 81, 20))
+        self.gBox.setObjectName("gBox")
+        self.kBox = QtWidgets.QLineEdit(self.groupBox)
+        self.kBox.setGeometry(QtCore.QRect(90, 80, 81, 20))
+        self.kBox.setObjectName("kBox")
         self.btnAceptar = QtWidgets.QPushButton(self.centralwidget)
         self.btnAceptar.setGeometry(QtCore.QRect(60, 440, 75, 23))
         self.btnAceptar.setObjectName("btnAceptar")
         self.btnCancelar = QtWidgets.QPushButton(self.centralwidget)
         self.btnCancelar.setGeometry(QtCore.QRect(160, 440, 75, 23))
         self.btnCancelar.setObjectName("btnCancelar")
-        self.semillaBox = QtWidgets.QSpinBox(self.centralwidget)
-        self.semillaBox.setGeometry(QtCore.QRect(140, 370, 81, 22))
-        self.semillaBox.setObjectName("semillaBox")
         self.cantNumerosLabel = QtWidgets.QLabel(self.centralwidget)
         self.cantNumerosLabel.setGeometry(QtCore.QRect(70, 40, 141, 16))
         self.cantNumerosLabel.setObjectName("cantNumerosLabel")
-        self.cantNrosBox = QtWidgets.QSpinBox(self.centralwidget)
-        self.cantNrosBox.setGeometry(QtCore.QRect(100, 60, 91, 22))
-        self.cantNrosBox.setMaximum(1000000)
-        self.cantNrosBox.setObjectName("cantNrosBox")
         self.tipoGeneradorLabel = QtWidgets.QLabel(self.centralwidget)
         self.tipoGeneradorLabel.setGeometry(QtCore.QRect(80, 110, 141, 16))
         self.tipoGeneradorLabel.setObjectName("tipoGeneradorLabel")
+        self.cantNrosBox = QtWidgets.QLineEdit(self.centralwidget)
+        self.cantNrosBox.setGeometry(QtCore.QRect(90, 70, 113, 20))
+        self.cantNrosBox.setObjectName("cantNrosBox")
+        
+        self.semillaBox = QtWidgets.QLineEdit(self.centralwidget)
+        self.semillaBox.setGeometry(QtCore.QRect(140, 370, 81, 20))
+        self.semillaBox.setObjectName("semillaBox")
+        
+
+        #Las modificaciones manuales sobre la interfaz estan aca
+        intValidator = QIntValidator(0, 1000000)
+        intValidatorCant = QIntValidator(30, 1000000)
+
+        #validadores de enteros
+        self.cBox.setValidator(intValidator)
+        self.gBox.setValidator(intValidator)
+        self.kBox.setValidator(intValidator)
+        self.cantNrosBox.setValidator(intValidatorCant)
+        self.semillaBox.setValidator(intValidator)
+        
+        #insertar valores iniciales
+        self.resetear_campos()
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    # -------- FUNCIONES AGREGADAS MANUALMENTE
+    def resetear_campos(self):
+        '''inserta los valores iniciales de los inputs
+        '''
+        self.cBox.setText("0")
+        self.gBox.setText("0")
+        self.kBox.setText("0")
+        self.cantNrosBox.setText("30")
+        self.semillaBox.setText("0")
+
+    def hay_campos_vacios(self):
+        '''Avisa si dejaron alguno de los campos sin ninguna entrada'''
+        return "" in [
+            self.cBox.text(),
+            self.gBox.text(),
+            self.kBox.text(),
+            self.cantNrosBox.text(),
+            self.semillaBox.text()
+        ]
+    # ------------------------------------------------
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.lblGeneradorNro.setText(_translate("MainWindow", "Generador de Nros"))
         self.cmbGeneradorNros.setItemText(0, _translate("MainWindow", "Congruencial Lineal"))
-        self.cmbGeneradorNros.setItemText(1, _translate("MainWindow", "Funcion del lenguaje utilizado?"))
-        self.cmbGeneradorNros.setItemText(2, _translate("MainWindow", "Cungruencial Multiplicativo"))
+        self.cmbGeneradorNros.setItemText(1, _translate("MainWindow", "Cungruencial Multiplicativo"))
+        self.cmbGeneradorNros.setItemText(2, _translate("MainWindow", "Funcion del Lenguaje (Python)"))
         self.cmbIntervalos.setItemText(0, _translate("MainWindow", "5"))
         self.cmbIntervalos.setItemText(1, _translate("MainWindow", "10"))
         self.cmbIntervalos.setItemText(2, _translate("MainWindow", "15"))

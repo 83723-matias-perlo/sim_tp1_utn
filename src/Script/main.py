@@ -1,9 +1,9 @@
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from main_ui import Ui_MainWindow
-from metodos import MetodoCongruencialLineal, MetodoMultiplicativo, MetodoPython
-from secondView import SecondView
+from ..ui.main_ui import Ui_MainWindow
+from .paquetes.metodos import MetodoCongruencialLineal, MetodoMultiplicativo, MetodoPython
+from .secondView import SecondView
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -96,6 +96,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def cancelar(self):
         self.close()
 
+def start_app():
+    app = QtWidgets.QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec_()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

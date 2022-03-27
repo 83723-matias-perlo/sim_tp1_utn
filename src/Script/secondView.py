@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
 from matplotlib import pyplot as plt
-from secondView_ui import Ui_SecondViewWindow
-from ji_cuadrado import generar_prueba_ji_cuadrado
+from ..ui.secondView_ui import Ui_SecondViewWindow
+from .paquetes.ji_cuadrado import generar_prueba_ji_cuadrado
 
 class SecondView(QtWidgets.QMainWindow, Ui_SecondViewWindow):
     def __init__(self, *args, **kwargs):

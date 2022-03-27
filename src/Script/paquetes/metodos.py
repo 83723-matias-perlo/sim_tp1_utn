@@ -1,8 +1,8 @@
 '''Clases que contienen la logica, las condiciones y los metodos de calculo de cada generador'''
 
 import random as rd
-from ji_cuadrado import truncar
-from coprimos import es_coprimo
+from .ji_cuadrado import truncar
+from .coprimos import es_coprimo
 
 class MetodoGeneradorNumeros:
     '''Metodo general, no se espera usar directamente
