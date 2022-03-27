@@ -111,7 +111,7 @@ class MetodoGeneradorNumeros:
             
             #hay mas filas por guardar?
             guardado = False
-            if filas_guardadas_ <= self._cant_filas_para_matriz - 1:
+            if filas_guardadas_ <= self._cant_filas_para_matriz - 2:
                 #crear una nueva entrada y guardarla, luego incrementar
                 self._matriz_calculos.append([i + 1, calc_sin_mod, xi1, rnd])
                 filas_guardadas_ += 1
@@ -119,15 +119,16 @@ class MetodoGeneradorNumeros:
 
             #incrementar la frecuencia de los intervalos
             for i in range(self._cant_intervalos):
-                if ((i + 1) * intervalo) <= rnd:
+                if rnd <= ((i + 1) * intervalo) :
                     self._intervalos_frecuencia[i] += 1
+                    break
         
             #decrementa los calculos que faltan
             calculos_restantes -= 1
 
             #es el ultimo calculo y no se ha guardado? entonces guardar
             if calculos_restantes == 0 and not guardado:
-                self._matriz_calculos.append([i + 1, calc_sin_mod, xi1, rnd])
+                self._matriz_calculos.append([cantNros, calc_sin_mod, xi1, rnd])
         
 
     #Metodos HOOK que varian durante la generacion segun el metodo
@@ -244,7 +245,7 @@ class MetodoPython(MetodoGeneradorNumeros):
     
     def _calc_RND(self, xi1):
         '''calcula el RND'''
-        return rd.random % 1
+        return rd.random() % 1
 
 if __name__ == "__main__":
     print(MetodoCongruencialLineal().setG(4))

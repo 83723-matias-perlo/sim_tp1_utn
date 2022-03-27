@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>SecondViewWindow</class>
+ <widget class="QMainWindow" name="SecondViewWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,16 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="resultTable">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>30</y>
-      <width>361</width>
-      <height>251</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="resultLbl">
     <property name="geometry">
      <rect>
@@ -96,22 +86,12 @@
      <string>Ji Calculado</string>
     </property>
    </widget>
-   <widget class="QTableView" name="jiCuadradoTable">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>330</y>
-      <width>491</width>
-      <height>251</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="return_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>75</width>
+      <x>30</x>
+      <y>610</y>
+      <width>221</width>
       <height>23</height>
      </rect>
     </property>
@@ -119,16 +99,128 @@
      <string>Return</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>826</width>
-     <height>21</height>
-    </rect>
-   </property>
+   <widget class="QTableWidget" name="resultTable">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>30</y>
+      <width>371</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="horizontalHeaderCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>92</number>
+    </attribute>
+    <attribute name="horizontalHeaderHighlightSections">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>20</number>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>i</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>(a.X +c)</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Xi+1</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>RND</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="jiCuadradoTable">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>330</y>
+      <width>581</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>115</number>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Intervalo</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>fo</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>fe</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>C(AC)</string>
+     </property>
+    </column>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
