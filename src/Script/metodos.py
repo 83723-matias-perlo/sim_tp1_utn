@@ -1,6 +1,7 @@
 '''Clases que contienen la logica, las condiciones y los metodos de calculo de cada generador'''
 
 import random as rd
+from ji_cuadrado import truncar
 from coprimos import es_coprimo
 
 class MetodoGeneradorNumeros:
@@ -105,9 +106,9 @@ class MetodoGeneradorNumeros:
 
         #for principal del calculo
         for i in range(cantNros):
-            calc_sin_mod = self._calc_aX_c(xi1)
-            xi1 = self._calc_xi1(calc_sin_mod)
-            rnd = self._calc_RND(xi1)
+            calc_sin_mod = truncar(self._calc_aX_c(xi1), 4)
+            xi1 = truncar(self._calc_xi1(calc_sin_mod), 4)
+            rnd = truncar(self._calc_RND(xi1), 4)
             
             #hay mas filas por guardar?
             guardado = False
