@@ -97,10 +97,10 @@ class Ui_SecondViewWindow(object):
         self.JiCuadradoBox.setObjectName("JiCuadradoBox")
 
         #si es un qdialog, el statusbar y centralwidget no van
-        SecondViewWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(SecondViewWindow)
-        self.statusbar.setObjectName("statusbar")
-        SecondViewWindow.setStatusBar(self.statusbar)
+        #SecondViewWindow.setCentralWidget(self.centralwidget)
+        #self.statusbar = QtWidgets.QStatusBar(SecondViewWindow)
+        #self.statusbar.setObjectName("statusbar")
+        #SecondViewWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(SecondViewWindow)
         QtCore.QMetaObject.connectSlotsByName(SecondViewWindow)

@@ -85,11 +85,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.metodo.generar_numeros(int(self.cantNrosBox.text()))
 
         #creamos la ventana seteada con los resultados y la lanzamos
-        self.close()
+        #self.close()
         self.secView = SecondView()
         self.secView.set_frecuencias_observadas(self.metodo.obtener_frecuencias_de_cada_intervalo())
         self.secView.set_calculos_del_generador(self.metodo.obtener_matriz_valores_calculados())
         self.secView.show()
+        self.secView.exec_()
 
     def cancelar(self):
         self.close()

@@ -4,11 +4,13 @@ from matplotlib import pyplot as plt
 from ..ui.secondView_ui import Ui_SecondViewWindow
 from .paquetes.ji_cuadrado import generar_prueba_ji_cuadrado
 
-class SecondView(QtWidgets.QMainWindow, Ui_SecondViewWindow):
+class SecondView(QtWidgets.QDialog, Ui_SecondViewWindow):
     def __init__(self, *args, **kwargs):
-        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+        QtWidgets.QDialog.__init__(self, *args, **kwargs)
 
         self.setupUi(self)
+
+        self.return_2.clicked.connect(self.cerrar)
 
         #valores necesarios para realizar la visualizacion
         self.matriz_datos_generador_nros = []
@@ -100,6 +102,10 @@ class SecondView(QtWidgets.QMainWindow, Ui_SecondViewWindow):
         
         #por ultimo setea el Ji Calculado en el LineText
         self.JiCuadradoBox.setText(str(matriz[i][4]))
+    
+    def cerrar(self):
+        plt.close()
+        self.close()
 
 if __name__ == "__main__":  
     app = QtWidgets.QApplication([])
