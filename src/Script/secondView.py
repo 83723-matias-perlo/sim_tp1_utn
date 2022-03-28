@@ -46,9 +46,33 @@ class SecondView(QtWidgets.QMainWindow, Ui_SecondViewWindow):
     def _crear_histograma(self):
         '''crea el histograma'''
 
-        frec = self.frecuencias_observadas
-        plt.hist(x=frec, bins=len(frec), orientation="vertical", color="green", ec="black")
-        plt.xticks(frec)
+        frecs = self.frecuencias_observadas
+
+        #esta iteracion convertira los contadores en valores medios 
+        #de sus intervalos, para poder ser leidos por pyplot y
+        #poder ser seteados en su secuencia correspondiente
+        base = 0
+        inc = 1 / len(frecs)
+        valores_medios = []
+        for frec in frecs:
+            for i in range(frec):
+                valores_medios.append(base + inc / 2)
+            base += inc
+
+        bins = []
+        for i in range(len(frecs) + 1):
+            bins.append(i / len(frecs))
+
+        #pasamos los parametros al constructor
+        plt.hist(
+            x=valores_medios, 
+            bins=bins,
+            orientation="vertical", 
+            color="green", 
+            ec="black")
+        
+        #setear valores de presentacion y lanzar
+        plt.xticks(bins)
         plt.title("Histograma de frecuencias")
         plt.xlabel('Intervalo')
         plt.ylabel('Frecuencia')
