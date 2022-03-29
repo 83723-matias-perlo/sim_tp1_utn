@@ -7,7 +7,6 @@ from .coprimos import es_coprimo
 class MetodoGeneradorNumeros:
     '''Metodo general, no se espera usar directamente
     '''
-    #TODO: completar
     def __init__(self):
         self._semilla = 0
         self._a = 0
@@ -142,7 +141,7 @@ class MetodoGeneradorNumeros:
         pass
     
     def _calc_RND(self, xi1):
-        '''calcula el RND'''
+        '''calcula el RND, recordar que usamos (m) en vez de (m-1) para evitar unos como RND'''
         pass
 
 
@@ -181,7 +180,10 @@ class MetodoCongruencialLineal(MetodoGeneradorNumeros):
     
     def _calc_RND(self, xi1):
         '''calcula el RND'''
-        return xi1 / self._m
+        # se comenta la version original para hacer pruebas
+        return xi1 / (self._m - 1)
+        #return xi1 / (self._m)
+
 
 
 class MetodoMultiplicativo(MetodoGeneradorNumeros):
@@ -217,7 +219,9 @@ class MetodoMultiplicativo(MetodoGeneradorNumeros):
     
     def _calc_RND(self, xi1):
         '''calcula el RND'''
-        return xi1 / self._m
+        # se comenta la version original para hacer pruebas
+        return xi1 / (self._m - 1)
+        #return xi1 / self._m
 
 class MetodoPython(MetodoGeneradorNumeros):
     '''Metodo generico de Python'''
