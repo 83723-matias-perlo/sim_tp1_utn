@@ -54,4 +54,6 @@ def generar_prueba_ji_cuadrado(frecuencias_observadas):
     return matriz_datos_prueba_ji_cuadrado
 
 if __name__ == "__main__":
-    print(truncar(1.23445, 3))
+    #colocar aca cualquier test a realizar
+    matriz = generar_prueba_ji_cuadrado([8,7,5,4,6])
+    print("listo: \n", matriz)
